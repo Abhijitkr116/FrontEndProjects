@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>QueryBox</title>
+</head>
+<style>
+    /*
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: $blue;
+  display : flex;
+}*/
+    
+    html,
+    body,
+    input,
+    button {
+        font-family: "Sen", sans-serif;
+    }
+    
+    i:hover {
+        color: violet;
+    }
+    
+    .d-none {
+        display: none !important;
+    }
+    
+    .others-show {
+        top: -55px !important;
+        z-index: 10 !important;
+    }
+    
+    .emoji-show {
+        display: flex !important;
+        flex-wrap: wrap;
+        align-content: flex-start;
+        width: 150px !important;
+        height: 100px !important;
+        padding: 10px;
+        top: -135px !important;
+        right: 10px !important;
+        background-color: #fff;
+        box-shadow: 0 0 25px -5px lightgray;
+        border-radius: 5px 5px 0 5px;
+    }
+    
+    button {
+        border: 0;
+        outline: none;
+    }
+    
+    img {
+        width: 100%;
+        object-fit: cover;
+    }
+    
+    .avatar-wrapper {
+        border-radius: 50%;
+        overflow: hidden;
+    }
+    
+    .chat-box {
+        width: 350px;
+        height: 78vh;
+        margin: 0 auto 0 auto;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+    
+    .header {
+        display: flex;
+        align-items: center;
+        background-color: #fff;
+        border-radius: 20px 20px 0 0;
+        width: 350px;
+        margin: 5vh auto 0 auto;
+    }
+    
+    .avatar-big {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .options {
+        font-size: 20px;
+        color: lightgrey;
+        margin-left: auto;
+        cursor: pointer;
+    }
+    
+    .chat-room {
+        min-height: 300px;
+        background-color: #f7f9fb;
+        padding: 15px;
+    }
+    
+    .avatar-small {
+        width: 25px;
+        height: 25px;
+    }
+    
+    .message {
+        margin-bottom: 0px;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .message-left {
+        align-items: flex-start;
+    }
+    
+    .message-right {
+        align-items: flex-end;
+    }
+    
+    .bubble {
+        border-radius: 5px 0 5px 5px;
+    }
+    
+    .bubble {
+        padding: 10px;
+        font-size: 20px;
+        margin-top: 5px;
+        display: inline-block;
+    }
+    
+    .bubble-light {
+        /*background-color: lightyellow;*/
+        font-size: medium;
+        background-color: rgb(75, 4, 75);
+        color: white;
+    }
+    
+    .bubble-dark {
+        color: #fff;
+        background-color: rgb(185, 9, 185);
+    }
+    
+    .type-area {
+        display: flex;
+        height: 55px;
+        background-color: #fff;
+        border-radius: 0 0 20px 20px;
+        width: 350px;
+        margin: 0 auto 0 auto;
+    }
+    
+    .input-wrapper {
+        overflow: hidden;
+        border-radius: 0 0 0 20px;
+    }
+    
+    input {
+        outline: none;
+        border: none;
+        padding-left: 20px;
+        height: 100%;
+        width: 220px;
+        font-size: 14px;
+    }
+    
+    .button-add {
+        display: flex;
+        align-items: center;
+        position: relative;
+    }
+    
+    i {
+        font-size: 30px;
+        color: lightgrey;
+        cursor: pointer;
+    }
+    
+    i:hover {
+        color: violet;
+    }
+    
+    .others {
+        display: flex;
+        padding: 10px 15px;
+        background-color: #fff;
+        position: absolute;
+        top: 5px;
+        z-index: -1;
+        right: -52px;
+        border-radius: 999px;
+        box-shadow: 0 0 25px -5px lightgray;
+        transition: 0.3s all ease-out;
+    }
+    
+    span i {
+        font-size: 20px;
+        color: violet;
+    }
+    
+    span.image-button {
+        margin: 0 25px;
+    }
+    
+    .emoji-button {
+        position: relative;
+    }
+    
+    .emoji-box {
+        display: none;
+        position: absolute;
+        width: 0px;
+        height: 0px;
+        top: 0px;
+        right: 0px;
+        transition: 0.3s all ease-out;
+    }
+    
+    span {
+        user-select: none;
+        cursor: pointer;
+        margin-right: 5px;
+        margin-bottom: 5px;
+        width: 20px;
+        height: 20px;
+    }
+    
+    .button-send {
+        background-color: #fff;
+        margin-left: auto;
+        width: 65px;
+        color: violet;
+        font-weight: bold;
+        border-left: 2px solid #f7f9fb;
+        border-radius: 0 0 20px 0;
+        cursor: pointer;
+    }
+    
+    .button-send:hover {
+        background-color: violet;
+        color: #fff;
+    }
+    
+    #inputText {
+        margin-top: 3vh;
+    }
+    
+    .headerName {
+        font-size: x-large;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        padding-bottom: 10px;
+    }
+    
+    #sp {
+        font-size: medium;
+        color: black;
+    }
+    
+    body {
+        background-color: lightgray;
+    }
+</style>
+
+<body>
+    <div class="header">
+        <div class="avatar-wrapper avatar-big">
+            <img src="https://cdn-icons-png.flaticon.com/512/4712/4712139.png" alt="avatar" />
+        </div>
+        <span class="headerName">Queries</span>
+        <span class="options">
+        <i class="fas fa-ellipsis-h"></i>
+      </span>
+    </div>
+    <div class="chat-box">
+
+        <div class="chat-room">
+            <div class="message message-left">
+
+                <!-- <div class="avatar-wrapper avatar-small">
+                    <img src="https://cdn-icons-png.flaticon.com/512/4712/4712139.png" alt="avatar" />
+                </div> -->
+                <div class="bubble bubble-light">
+                    All Queries!
+                </div>
+            </div>
+            <div id="msgs" class="message message-right">
+                <!-- <div class="avatar-wrapper avatar-small">
+                    <img src="https://images.unsplash.com/photo-1559386484-97dfc0e15539?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8Ym95c3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="avatar" />
+                </div> -->
+                <div class="bubble bubble-dark">
+                    <!-- hello -->
+                    <span id="sp">All queries will be deleted automatically after 7 days..</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="type-area">
+        <div class="input-wrapper">
+            <form action="https://giant-tick-lab-coat.cyclic.app/msg" method="POST">
+                <input type="text" id="inputText" name="msg" placeholder="Type messages here..." required />
+                <input type="text" id="name" name="name" placeholder="Enter your name" hidden/>
+        </div>
+        <span class="button-add">
+            <i class="fas fa-plus-circle"></i>
+            <div class="others">
+              <span class="emoji-button">
+                <i class="far fa-laugh"></i>
+                <div class="emoji-box">
+                  <span>&#x1f604;</span>
+        <span>😀</span>
+        <span>😂</span>
+        <span>😭</span>
+        <span>😍</span>
+        <span>🤮</span>
+        <span>🤑</span>
+        <span>😖</span>
+        <span>😷</span>
+    </div>
+    </span>
+    <span class="image-button">
+                <i class="far fa-image"></i>
+              </span>
+    <span>
+                <i class="fas fa-paperclip"></i>
+              </span>
+    </div>
+    </span>
+    <input type="submit" class="button-send" value="Send" />
+    </form>
+    </div>
+
+    </div>
+    <script>
+        let name = prompt("Enter your name", "Guest")
+        console.log(name)
+        document.getElementById('name').value = name
+            //Content Loaded
+            /*
+            window.addEventListener("DOMContentLoaded", (e) => {
+                var header = document.querySelector(".header");
+                var chatRoom = document.querySelector(".chat-room");
+                var typeArea = document.querySelector(".type-area");
+                var btnAdd = document.querySelector(".button-add");
+                var others = document.querySelector(".others");
+                var emojiBox = document.querySelector(".emoji-button .emoji-box");
+                var emojiButton = document.querySelector(".others .emoji-button");
+                var emojis = document.querySelectorAll(".emoji-box span");
+                var inputText = document.querySelector("#inputText");
+                var btnSend = document.querySelector(".button-send");
+                var messageArea = document.querySelector(".message.message-right");
+                //Header onclick event
+                header.addEventListener("click", (e) => {
+                    if (typeArea.classList.contains("d-none")) {
+                        header.style.borderRadius = "20px 20px 0 0";
+                    } else {
+                        header.style.borderRadius = "20px";
+                    }
+                    typeArea.classList.toggle("d-none");
+                    chatRoom.classList.toggle("d-none");
+                });
+                //Button Add onclick event
+                btnAdd.addEventListener("click", (e) => {
+                    others.classList.add("others-show");
+                });
+                //Emoji onclick event
+                emojiButton.addEventListener("click", (e) => {
+                    emojiBox.classList.add("emoji-show");
+                });
+                //Button Send onclick event
+                btnSend.addEventListener("click", (e) => {
+                    var mess = inputText.value;
+                    var bubble = document.createElement('div');
+                    bubble.className += " bubble bubble-dark";
+                    bubble.textContent = mess;
+                    messageArea.appendChild(bubble);
+                    inputText.value = "";
+                });
+                for (var emoji of emojis) {
+                    emoji.addEventListener("click", (e) => {
+                        e.stopPropagation();
+                        emojiBox.classList.remove("emoji-show");
+                        others.classList.remove("others-show");
+                        inputText.value += e.target.textContent;
+                    });
+                }
+            });*/
+
+
+
+
+
+
+
+
+
+
+
+
+        const request = "https://giant-tick-lab-coat.cyclic.app/msg";
+        fetch(request)
+            .then((response) => response.json())
+            .then((responseJson) => {
+                // console.log(responseJson[0]);
+                let str = JSON.stringify(responseJson)
+                for (let i in responseJson) {
+                    console.log(i)
+                    var node = document.createElement("div")
+                    var name = document.createElement("H5")
+                    var date = document.createElement("H6")
+                    var message = document.createElement("p")
+
+                    node.className = 'bubble bubble-dark'
+                        // name.className = 'name'
+                        // date.className = 'date'
+                        // message.className = 'msg'
+
+                    var textName = document.createTextNode('Name:' + responseJson[i].name)
+                    var textDateNTime = document.createTextNode('Date & Time :' + responseJson[i].date + ' ' + responseJson[i].time)
+                    var textMessage = document.createTextNode("Message :  " + responseJson[i].msg)
+
+                    name.appendChild(textName);
+                    date.appendChild(textDateNTime);
+                    message.appendChild(textMessage);
+
+                    node.appendChild(name);
+                    node.appendChild(date);
+                    node.appendChild(message);
+
+                    document.getElementById('msgs').appendChild(node)
+
+                }
+
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    </script>
+</body>
+
+</html>
